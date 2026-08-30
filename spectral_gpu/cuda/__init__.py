@@ -28,10 +28,11 @@ def load_extension() -> Any | None:
             return None
         root = Path(__file__).resolve()
         sources = [str(root / "bindings.cpp"), str(root / "complex_mul_kernel.cu"), str(root / "frequency_kernel.cu")]
+        host_flags = ["/O2"] if os.name == "nt" else ["-O3"]
         _extension = load(
             name="spectral_gpu_cuda_ext",
             sources=sources,
-            extra_cflags=["-O3"],
+            extra_cflags=host_flags,
             extra_cuda_cflags=["-O3", "--use_fast_math"],
             verbose=False,
         )
@@ -47,4 +48,3 @@ def extension_status() -> dict[str, str | bool | None]:
 
 
 __all__ = ["load_extension", "extension_status"]
-
