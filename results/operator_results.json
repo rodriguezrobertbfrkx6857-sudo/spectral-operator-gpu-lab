@@ -1,0 +1,349 @@
+{
+  "schema_version": 1,
+  "generated_by": "scripts/run_benchmarks.py",
+  "benchmarks": [
+    {
+      "benchmark": "operator",
+      "records": [
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_reference",
+          "shape": [
+            1,
+            16,
+            64,
+            64
+          ],
+          "modes": [
+            8,
+            8
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 0.8551500000000001,
+          "mean_ms": 0.8192250000000001,
+          "min_ms": 0.4418,
+          "std_ms": 0.3078453984957385,
+          "speedup": 1.0,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "torch.fft + torch.einsum"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "optimized_operator",
+          "shape": [
+            1,
+            16,
+            64,
+            64
+          ],
+          "modes": [
+            8,
+            8
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 0.43755,
+          "mean_ms": 0.47348749999999995,
+          "min_ms": 0.4154,
+          "std_ms": 0.08860009082247039,
+          "speedup": 1.9544052108330479,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_reference",
+          "shape": [
+            4,
+            16,
+            64,
+            128
+          ],
+          "modes": [
+            8,
+            16
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 3.3815,
+          "mean_ms": 3.3978375,
+          "min_ms": 3.0003,
+          "std_ms": 0.23534429532867374,
+          "speedup": 1.0,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "torch.fft + torch.einsum"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "optimized_operator",
+          "shape": [
+            4,
+            16,
+            64,
+            128
+          ],
+          "modes": [
+            8,
+            16
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 3.1422499999999998,
+          "mean_ms": 3.1861125,
+          "min_ms": 2.9707,
+          "std_ms": 0.19689972979603093,
+          "speedup": 1.0761397088073834,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_reference",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "modes": [
+            16,
+            16
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 4.7673000000000005,
+          "mean_ms": 5.068575,
+          "min_ms": 4.3743,
+          "std_ms": 0.7594335714037139,
+          "speedup": 1.0,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "torch.fft + torch.einsum"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "optimized_operator",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "modes": [
+            16,
+            16
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 5.116899999999999,
+          "mean_ms": 5.542175,
+          "min_ms": 4.8357,
+          "std_ms": 0.8111038863024884,
+          "speedup": 0.9316773827903616,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_reference",
+          "shape": [
+            4,
+            32,
+            128,
+            256
+          ],
+          "modes": [
+            16,
+            32
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 33.377449999999996,
+          "mean_ms": 32.7415875,
+          "min_ms": 27.0837,
+          "std_ms": 2.490337092361945,
+          "speedup": 1.0,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "torch.fft + torch.einsum"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "optimized_operator",
+          "shape": [
+            4,
+            32,
+            128,
+            256
+          ],
+          "modes": [
+            16,
+            32
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 55.293350000000004,
+          "mean_ms": 52.81095,
+          "min_ms": 29.9016,
+          "std_ms": 13.733779051575718,
+          "speedup": 0.603643114407067,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_reference",
+          "shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "modes": [
+            32,
+            32
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 12.45965,
+          "mean_ms": 14.6069625,
+          "min_ms": 10.852,
+          "std_ms": 3.921645051804631,
+          "speedup": 1.0,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "torch.fft + torch.einsum"
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "optimized_operator",
+          "shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "modes": [
+            32,
+            32
+          ],
+          "hardware_mode": "cpu",
+          "median_ms": 11.73225,
+          "mean_ms": 12.676725000000001,
+          "min_ms": 9.7011,
+          "std_ms": 2.9447592103387676,
+          "speedup": 1.062000042617571,
+          "max_abs_error_vs_reference": 0.0,
+          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+        }
+      ]
+    },
+    {
+      "benchmark": "complex_multiply",
+      "records": [
+        {
+          "benchmark": "complex_multiply",
+          "shape": [
+            1,
+            16,
+            16,
+            8,
+            8
+          ],
+          "hardware_mode": "cpu",
+          "reference": {
+            "median_ms": 0.04335,
+            "mean_ms": 0.044262499999999996,
+            "min_ms": 0.0427,
+            "std_ms": 0.0019403205276448537
+          },
+          "optimized": {
+            "median_ms": 0.04665,
+            "mean_ms": 0.0469625,
+            "min_ms": 0.0452,
+            "std_ms": 0.001416807591029918
+          },
+          "speedup": 0.9292604501607717,
+          "max_abs_error": 0.0
+        },
+        {
+          "benchmark": "complex_multiply",
+          "shape": [
+            4,
+            32,
+            32,
+            16,
+            32
+          ],
+          "hardware_mode": "cpu",
+          "reference": {
+            "median_ms": 4.61175,
+            "mean_ms": 4.5731625000000005,
+            "min_ms": 4.1825,
+            "std_ms": 0.24688779808599295
+          },
+          "optimized": {
+            "median_ms": 4.1311,
+            "mean_ms": 4.139125,
+            "min_ms": 3.9639,
+            "std_ms": 0.1347888510782698
+          },
+          "speedup": 1.116349156399022,
+          "max_abs_error": 0.0
+        }
+      ]
+    },
+    {
+      "benchmark": "mini_fno",
+      "records": [
+        {
+          "benchmark": "mini_fno_inference",
+          "shape": [
+            1,
+            1,
+            64,
+            64
+          ],
+          "modes": [
+            8,
+            8
+          ],
+          "hardware_mode": "cpu",
+          "reference": {
+            "median_ms": 0.9329000000000001,
+            "mean_ms": 0.9302125000000001,
+            "min_ms": 0.9029,
+            "std_ms": 0.022335870114011672
+          },
+          "optimized": {
+            "median_ms": 1.03395,
+            "mean_ms": 1.0747875,
+            "min_ms": 0.9619,
+            "std_ms": 0.12468255128024132
+          },
+          "speedup": 0.9022680013540307,
+          "max_abs_error": 0.0,
+          "note": "Inference only; no dataset download or training claim."
+        },
+        {
+          "benchmark": "mini_fno_inference",
+          "shape": [
+            1,
+            1,
+            128,
+            128
+          ],
+          "modes": [
+            16,
+            16
+          ],
+          "hardware_mode": "cpu",
+          "reference": {
+            "median_ms": 1.8845,
+            "mean_ms": 1.8898625,
+            "min_ms": 1.8119,
+            "std_ms": 0.05261841259245663
+          },
+          "optimized": {
+            "median_ms": 1.8992499999999999,
+            "mean_ms": 1.9052375000000001,
+            "min_ms": 1.8314,
+            "std_ms": 0.04174011671941035
+          },
+          "speedup": 0.9922337764907201,
+          "max_abs_error": 0.0,
+          "note": "Inference only; no dataset download or training claim."
+        }
+      ]
+    }
+  ]
+}

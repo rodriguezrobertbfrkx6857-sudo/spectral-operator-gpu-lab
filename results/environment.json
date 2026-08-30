@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "operating_system": {
+    "system": "Windows",
+    "release": "11",
+    "version": "10.0.26200",
+    "machine": "AMD64"
+  },
+  "python": {
+    "version": "3.13.11",
+    "executable_role": "interpreter running this script"
+  },
+  "torch": {
+    "installed": true,
+    "version": "2.9.1+cpu",
+    "cuda_available": false,
+    "compiled_cuda": null,
+    "device_count": 0,
+    "devices": []
+  },
+  "nvidia": {
+    "available": false,
+    "devices": []
+  },
+  "cuda_toolkit": {
+    "nvcc_found": false,
+    "nvcc_version": null
+  },
+  "compiler": {
+    "cl": false,
+    "gxx": true,
+    "gcc": true
+  },
+  "hardware_mode": "cpu_only",
+  "nsight": {
+    "ncu": false,
+    "nsys": false
+  }
+}
