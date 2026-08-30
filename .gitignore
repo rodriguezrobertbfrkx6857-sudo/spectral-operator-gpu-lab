@@ -1,0 +1,13 @@
+__pycache__/
+.pytest_cache/
+.venv/
+build/
+*.so
+*.pyd
+*.dll
+*.egg-info/
+.idea/
+.vscode/
+results/operator.json
+results/complex_mul.json
+results/fno.json
