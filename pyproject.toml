@@ -14,4 +14,6 @@ include = ["spectral_gpu*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-
+markers = [
+    "cuda: requires a CUDA-capable NVIDIA device and a CUDA-enabled PyTorch build",
+]

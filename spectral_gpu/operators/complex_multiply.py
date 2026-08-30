@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import os
+
 import torch
 
 from spectral_gpu.cuda import load_extension
@@ -31,3 +33,10 @@ def complex_multiply_optimized(input_ft: torch.Tensor, weight: torch.Tensor) -> 
             return extension.complex_mul_forward(input_ft.contiguous(), weight.contiguous())
     return complex_multiply_reference(input_ft, weight)
 
+
+def backend_name(input_ft: torch.Tensor) -> str:
+    if not input_ft.is_cuda:
+        return "torch_improved_cpu"
+    if os.environ.get("SPECTRAL_GPU_DISABLE_EXTENSION") == "1":
+        return "torch_improved_cuda"
+    return "custom_complex_cuda" if load_extension() is not None else "torch_reference_cuda"

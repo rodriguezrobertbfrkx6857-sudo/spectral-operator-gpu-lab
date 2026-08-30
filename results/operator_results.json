@@ -1,8 +1,10 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "generated_by": "scripts/run_benchmarks.py",
+  "hardware_mode": "cpu_only",
   "benchmarks": [
     {
+      "schema_version": 2,
       "benchmark": "operator",
       "records": [
         {
@@ -18,14 +20,52 @@
             8,
             8
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 0.8551500000000001,
-          "mean_ms": 0.8192250000000001,
-          "min_ms": 0.4418,
-          "std_ms": 0.3078453984957385,
-          "speedup": 1.0,
+          "backend": "torch_reference_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 0.35705,
+          "mean_ms": 0.3565125,
+          "min_ms": 0.3423,
+          "std_ms": 0.010108837408426342,
+          "baseline_variant": null,
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "torch.fft + torch.einsum"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Ground-truth torch.fft reference."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_improved",
+          "shape": [
+            1,
+            16,
+            64,
+            64
+          ],
+          "modes": [
+            8,
+            8
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 0.411,
+          "mean_ms": 0.44976249999999995,
+          "min_ms": 0.3613,
+          "std_ms": 0.09123451837846244,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
+          "max_abs_error_vs_reference": 0.0,
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Contiguous PyTorch frequency path with extension disabled."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -40,14 +80,52 @@
             8,
             8
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 0.43755,
-          "mean_ms": 0.47348749999999995,
-          "min_ms": 0.4154,
-          "std_ms": 0.08860009082247039,
-          "speedup": 1.9544052108330479,
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 0.3553,
+          "mean_ms": 0.3592125,
+          "min_ms": 0.3518,
+          "std_ms": 0.007748941459967299,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Custom complex CUDA contraction when available; otherwise the actual PyTorch fallback is reported."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "fused_operator",
+          "shape": [
+            1,
+            16,
+            64,
+            64
+          ],
+          "modes": [
+            8,
+            8
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "SKIPPED_CUDA_UNAVAILABLE",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": null,
+          "mean_ms": null,
+          "min_ms": null,
+          "std_ms": null,
+          "baseline_variant": null,
+          "speedup": null,
+          "max_abs_error_vs_reference": null,
+          "mean_abs_error_vs_reference": null,
+          "status": "SKIPPED_CUDA_UNAVAILABLE",
+          "note": "Requires a CUDA-capable NVIDIA device and CUDA-enabled PyTorch."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -62,14 +140,52 @@
             8,
             16
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 3.3815,
-          "mean_ms": 3.3978375,
-          "min_ms": 3.0003,
-          "std_ms": 0.23534429532867374,
-          "speedup": 1.0,
+          "backend": "torch_reference_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 2.7455999999999996,
+          "mean_ms": 2.777525,
+          "min_ms": 2.5329,
+          "std_ms": 0.2315025472322065,
+          "baseline_variant": null,
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "torch.fft + torch.einsum"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Ground-truth torch.fft reference."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_improved",
+          "shape": [
+            4,
+            16,
+            64,
+            128
+          ],
+          "modes": [
+            8,
+            16
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 3.0069999999999997,
+          "mean_ms": 3.0873625,
+          "min_ms": 2.8091,
+          "std_ms": 0.26974190876419263,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
+          "max_abs_error_vs_reference": 0.0,
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Contiguous PyTorch frequency path with extension disabled."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -84,14 +200,52 @@
             8,
             16
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 3.1422499999999998,
-          "mean_ms": 3.1861125,
-          "min_ms": 2.9707,
-          "std_ms": 0.19689972979603093,
-          "speedup": 1.0761397088073834,
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 3.15355,
+          "mean_ms": 3.3560499999999998,
+          "min_ms": 2.9064,
+          "std_ms": 0.48909118526099016,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Custom complex CUDA contraction when available; otherwise the actual PyTorch fallback is reported."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "fused_operator",
+          "shape": [
+            4,
+            16,
+            64,
+            128
+          ],
+          "modes": [
+            8,
+            16
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "SKIPPED_CUDA_UNAVAILABLE",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": null,
+          "mean_ms": null,
+          "min_ms": null,
+          "std_ms": null,
+          "baseline_variant": null,
+          "speedup": null,
+          "max_abs_error_vs_reference": null,
+          "mean_abs_error_vs_reference": null,
+          "status": "SKIPPED_CUDA_UNAVAILABLE",
+          "note": "Requires a CUDA-capable NVIDIA device and CUDA-enabled PyTorch."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -106,14 +260,52 @@
             16,
             16
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 4.7673000000000005,
-          "mean_ms": 5.068575,
-          "min_ms": 4.3743,
-          "std_ms": 0.7594335714037139,
-          "speedup": 1.0,
+          "backend": "torch_reference_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 7.1802,
+          "mean_ms": 7.206687499999999,
+          "min_ms": 6.5481,
+          "std_ms": 0.41547237404399096,
+          "baseline_variant": null,
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "torch.fft + torch.einsum"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Ground-truth torch.fft reference."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_improved",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "modes": [
+            16,
+            16
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 6.75095,
+          "mean_ms": 6.638287500000001,
+          "min_ms": 5.1765,
+          "std_ms": 0.9781065834528208,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
+          "max_abs_error_vs_reference": 0.0,
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Contiguous PyTorch frequency path with extension disabled."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -128,14 +320,52 @@
             16,
             16
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 5.116899999999999,
-          "mean_ms": 5.542175,
-          "min_ms": 4.8357,
-          "std_ms": 0.8111038863024884,
-          "speedup": 0.9316773827903616,
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 7.3589,
+          "mean_ms": 7.7501750000000005,
+          "min_ms": 7.0322,
+          "std_ms": 0.6928446971544203,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Custom complex CUDA contraction when available; otherwise the actual PyTorch fallback is reported."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "fused_operator",
+          "shape": [
+            1,
+            32,
+            128,
+            128
+          ],
+          "modes": [
+            16,
+            16
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "SKIPPED_CUDA_UNAVAILABLE",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": null,
+          "mean_ms": null,
+          "min_ms": null,
+          "std_ms": null,
+          "baseline_variant": null,
+          "speedup": null,
+          "max_abs_error_vs_reference": null,
+          "mean_abs_error_vs_reference": null,
+          "status": "SKIPPED_CUDA_UNAVAILABLE",
+          "note": "Requires a CUDA-capable NVIDIA device and CUDA-enabled PyTorch."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -150,14 +380,52 @@
             16,
             32
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 33.377449999999996,
-          "mean_ms": 32.7415875,
-          "min_ms": 27.0837,
-          "std_ms": 2.490337092361945,
-          "speedup": 1.0,
+          "backend": "torch_reference_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 53.63495,
+          "mean_ms": 51.9896125,
+          "min_ms": 39.1684,
+          "std_ms": 7.001341062331828,
+          "baseline_variant": null,
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "torch.fft + torch.einsum"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Ground-truth torch.fft reference."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_improved",
+          "shape": [
+            4,
+            32,
+            128,
+            256
+          ],
+          "modes": [
+            16,
+            32
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 50.062650000000005,
+          "mean_ms": 49.249649999999995,
+          "min_ms": 42.6039,
+          "std_ms": 4.668391418358147,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
+          "max_abs_error_vs_reference": 0.0,
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Contiguous PyTorch frequency path with extension disabled."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -172,14 +440,52 @@
             16,
             32
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 55.293350000000004,
-          "mean_ms": 52.81095,
-          "min_ms": 29.9016,
-          "std_ms": 13.733779051575718,
-          "speedup": 0.603643114407067,
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 61.80975,
+          "mean_ms": 59.558025,
+          "min_ms": 40.9698,
+          "std_ms": 9.302932036695474,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Custom complex CUDA contraction when available; otherwise the actual PyTorch fallback is reported."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "fused_operator",
+          "shape": [
+            4,
+            32,
+            128,
+            256
+          ],
+          "modes": [
+            16,
+            32
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "SKIPPED_CUDA_UNAVAILABLE",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": null,
+          "mean_ms": null,
+          "min_ms": null,
+          "std_ms": null,
+          "baseline_variant": null,
+          "speedup": null,
+          "max_abs_error_vs_reference": null,
+          "mean_abs_error_vs_reference": null,
+          "status": "SKIPPED_CUDA_UNAVAILABLE",
+          "note": "Requires a CUDA-capable NVIDIA device and CUDA-enabled PyTorch."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -194,14 +500,52 @@
             32,
             32
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 12.45965,
-          "mean_ms": 14.6069625,
-          "min_ms": 10.852,
-          "std_ms": 3.921645051804631,
-          "speedup": 1.0,
+          "backend": "torch_reference_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 10.71645,
+          "mean_ms": 11.5103625,
+          "min_ms": 8.245,
+          "std_ms": 2.5027999045756233,
+          "baseline_variant": null,
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "torch.fft + torch.einsum"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Ground-truth torch.fft reference."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "pytorch_improved",
+          "shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "modes": [
+            32,
+            32
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 10.73855,
+          "mean_ms": 11.666775,
+          "min_ms": 9.7579,
+          "std_ms": 1.9655575238020893,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
+          "max_abs_error_vs_reference": 0.0,
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Contiguous PyTorch frequency path with extension disabled."
         },
         {
           "benchmark": "spectral_conv2d",
@@ -216,18 +560,57 @@
             32,
             32
           ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
-          "median_ms": 11.73225,
-          "mean_ms": 12.676725000000001,
-          "min_ms": 9.7011,
-          "std_ms": 2.9447592103387676,
-          "speedup": 1.062000042617571,
+          "backend": "torch_improved_cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": 16.72655,
+          "mean_ms": 15.5126,
+          "min_ms": 11.745,
+          "std_ms": 2.520460927588444,
+          "baseline_variant": "pytorch_reference",
+          "speedup": null,
           "max_abs_error_vs_reference": 0.0,
-          "backend": "custom CUDA complex multiply when available; PyTorch fallback otherwise"
+          "mean_abs_error_vs_reference": 0.0,
+          "status": "BENCHMARKED_CPU_ONLY",
+          "note": "Custom complex CUDA contraction when available; otherwise the actual PyTorch fallback is reported."
+        },
+        {
+          "benchmark": "spectral_conv2d",
+          "variant": "fused_operator",
+          "shape": [
+            1,
+            16,
+            256,
+            256
+          ],
+          "modes": [
+            32,
+            32
+          ],
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "backend": "SKIPPED_CUDA_UNAVAILABLE",
+          "warmup": 2,
+          "iterations": 8,
+          "median_ms": null,
+          "mean_ms": null,
+          "min_ms": null,
+          "std_ms": null,
+          "baseline_variant": null,
+          "speedup": null,
+          "max_abs_error_vs_reference": null,
+          "mean_abs_error_vs_reference": null,
+          "status": "SKIPPED_CUDA_UNAVAILABLE",
+          "note": "Requires a CUDA-capable NVIDIA device and CUDA-enabled PyTorch."
         }
       ]
     },
     {
+      "schema_version": 2,
       "benchmark": "complex_multiply",
       "records": [
         {
@@ -239,21 +622,33 @@
             8,
             8
           ],
+          "dtype": "complex64",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
+          "warmup": 2,
+          "iterations": 8,
           "reference": {
-            "median_ms": 0.04335,
-            "mean_ms": 0.044262499999999996,
-            "min_ms": 0.0427,
-            "std_ms": 0.0019403205276448537
+            "median_ms": 0.0409,
+            "mean_ms": 0.041362499999999996,
+            "min_ms": 0.0404,
+            "std_ms": 0.0011767938434577233,
+            "variant": "pytorch_reference",
+            "backend": "torch_reference_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
           "optimized": {
-            "median_ms": 0.04665,
-            "mean_ms": 0.0469625,
-            "min_ms": 0.0452,
-            "std_ms": 0.001416807591029918
+            "median_ms": 0.1,
+            "mean_ms": 0.10171250000000001,
+            "min_ms": 0.0988,
+            "std_ms": 0.003642608097229239,
+            "variant": "optimized_complex_multiply",
+            "backend": "torch_improved_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
-          "speedup": 0.9292604501607717,
-          "max_abs_error": 0.0
+          "speedup": null,
+          "max_abs_error": 0.0,
+          "mean_abs_error": 0.0,
+          "note": "Speedup is emitted only for the custom CUDA backend; fallback timings remain labelled as fallback execution."
         },
         {
           "benchmark": "complex_multiply",
@@ -264,25 +659,38 @@
             16,
             32
           ],
+          "dtype": "complex64",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
+          "warmup": 2,
+          "iterations": 8,
           "reference": {
-            "median_ms": 4.61175,
-            "mean_ms": 4.5731625000000005,
-            "min_ms": 4.1825,
-            "std_ms": 0.24688779808599295
+            "median_ms": 5.1326,
+            "mean_ms": 5.350275,
+            "min_ms": 4.4345,
+            "std_ms": 0.65461536559647,
+            "variant": "pytorch_reference",
+            "backend": "torch_reference_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
           "optimized": {
-            "median_ms": 4.1311,
-            "mean_ms": 4.139125,
-            "min_ms": 3.9639,
-            "std_ms": 0.1347888510782698
+            "median_ms": 5.67895,
+            "mean_ms": 5.81235,
+            "min_ms": 4.7189,
+            "std_ms": 0.8455233290690448,
+            "variant": "optimized_complex_multiply",
+            "backend": "torch_improved_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
-          "speedup": 1.116349156399022,
-          "max_abs_error": 0.0
+          "speedup": null,
+          "max_abs_error": 0.0,
+          "mean_abs_error": 0.0,
+          "note": "Speedup is emitted only for the custom CUDA backend; fallback timings remain labelled as fallback execution."
         }
       ]
     },
     {
+      "schema_version": 2,
       "benchmark": "mini_fno",
       "records": [
         {
@@ -293,25 +701,38 @@
             64,
             64
           ],
+          "width": 8,
           "modes": [
             8,
             8
           ],
+          "parameter_count": 16625,
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
+          "warmup": 2,
+          "iterations": 8,
           "reference": {
-            "median_ms": 0.9329000000000001,
-            "mean_ms": 0.9302125000000001,
-            "min_ms": 0.9029,
-            "std_ms": 0.022335870114011672
+            "median_ms": 0.79775,
+            "mean_ms": 0.961125,
+            "min_ms": 0.7586,
+            "std_ms": 0.38060143441006633,
+            "variant": "pytorch_reference",
+            "backend": "torch_reference_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
           "optimized": {
-            "median_ms": 1.03395,
-            "mean_ms": 1.0747875,
-            "min_ms": 0.9619,
-            "std_ms": 0.12468255128024132
+            "median_ms": 0.83555,
+            "mean_ms": 1.0070999999999999,
+            "min_ms": 0.7778,
+            "std_ms": 0.44253182088975246,
+            "variant": "optimized_operator",
+            "backend": "torch_improved_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
-          "speedup": 0.9022680013540307,
+          "speedup": null,
           "max_abs_error": 0.0,
+          "mean_abs_error": 0.0,
           "note": "Inference only; no dataset download or training claim."
         },
         {
@@ -322,25 +743,80 @@
             128,
             128
           ],
+          "width": 8,
           "modes": [
             16,
             16
           ],
+          "parameter_count": 65777,
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
           "hardware_mode": "cpu",
+          "warmup": 2,
+          "iterations": 8,
           "reference": {
-            "median_ms": 1.8845,
-            "mean_ms": 1.8898625,
-            "min_ms": 1.8119,
-            "std_ms": 0.05261841259245663
+            "median_ms": 1.9250500000000001,
+            "mean_ms": 1.978875,
+            "min_ms": 1.8452,
+            "std_ms": 0.13680266581832393,
+            "variant": "pytorch_reference",
+            "backend": "torch_reference_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
           "optimized": {
-            "median_ms": 1.8992499999999999,
-            "mean_ms": 1.9052375000000001,
-            "min_ms": 1.8314,
-            "std_ms": 0.04174011671941035
+            "median_ms": 1.97995,
+            "mean_ms": 1.9347375,
+            "min_ms": 1.7666,
+            "std_ms": 0.13498405403509706,
+            "variant": "optimized_operator",
+            "backend": "torch_improved_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
           },
-          "speedup": 0.9922337764907201,
+          "speedup": null,
           "max_abs_error": 0.0,
+          "mean_abs_error": 0.0,
+          "note": "Inference only; no dataset download or training claim."
+        },
+        {
+          "benchmark": "mini_fno_inference",
+          "shape": [
+            1,
+            1,
+            256,
+            256
+          ],
+          "width": 8,
+          "modes": [
+            32,
+            32
+          ],
+          "parameter_count": 262385,
+          "dtype": "float32",
+          "device": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+          "hardware_mode": "cpu",
+          "warmup": 2,
+          "iterations": 8,
+          "reference": {
+            "median_ms": 6.107150000000001,
+            "mean_ms": 6.327025000000001,
+            "min_ms": 5.8191,
+            "std_ms": 0.5476859267636882,
+            "variant": "pytorch_reference",
+            "backend": "torch_reference_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
+          },
+          "optimized": {
+            "median_ms": 6.30225,
+            "mean_ms": 6.459874999999999,
+            "min_ms": 5.8415,
+            "std_ms": 0.5557370190791684,
+            "variant": "optimized_operator",
+            "backend": "torch_improved_cpu",
+            "status": "BENCHMARKED_CPU_ONLY"
+          },
+          "speedup": null,
+          "max_abs_error": 0.0,
+          "mean_abs_error": 0.0,
           "note": "Inference only; no dataset download or training claim."
         }
       ]

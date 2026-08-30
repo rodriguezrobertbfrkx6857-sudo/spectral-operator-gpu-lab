@@ -1,6 +1,7 @@
 import pytest
 import torch
 
+from spectral_gpu.cuda import extension_status
 from spectral_gpu.operators.spectral_conv_optimized import SpectralConv2dOptimized
 from spectral_gpu.operators.spectral_conv_reference import SpectralConv2dReference
 
@@ -31,3 +32,22 @@ def test_reference_rejects_invalid_modes():
     with pytest.raises(ValueError):
         layer(torch.randn(1, 2, 8, 16))
 
+
+@pytest.mark.cuda
+@pytest.mark.skipif(not torch.cuda.is_available(), reason="CUDA-capable PyTorch is unavailable")
+def test_fused_cuda_path_uses_distinct_positive_and_negative_weights(monkeypatch):
+    monkeypatch.setenv("SPECTRAL_GPU_ENABLE_FUSED", "1")
+    monkeypatch.setenv("SPECTRAL_GPU_REQUIRE_EXTENSION", "1")
+    torch.manual_seed(43)
+    reference = SpectralConv2dReference(4, 6, modes1=8, modes2=9, seed=47).cuda()
+    optimized = SpectralConv2dOptimized(4, 6, modes1=8, modes2=9, seed=47).cuda()
+    optimized.load_state_dict(reference.state_dict())
+    x = torch.randn(2, 4, 32, 32, device="cuda")
+    with torch.no_grad():
+        expected = reference(x)
+        actual = optimized(x)
+        torch.cuda.synchronize()
+    torch.testing.assert_close(actual, expected, rtol=2.0e-5, atol=2.0e-5)
+    status = extension_status()
+    assert status["available"] is True
+    assert status["backend"] == "custom_cuda"

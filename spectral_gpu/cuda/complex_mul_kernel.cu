@@ -50,13 +50,14 @@ torch::Tensor complex_mul_forward(torch::Tensor input, torch::Tensor weight) {
     TORCH_CHECK(input.dim() == 4 && weight.dim() == 4, "expected rank-4 tensors");
     TORCH_CHECK(input.size(1) == weight.size(0) && input.size(2) == weight.size(2) && input.size(3) == weight.size(3),
                 "incompatible contraction dimensions");
+    const c10::cuda::CUDAGuard device_guard(input.device());
     input = input.contiguous();
     weight = weight.contiguous();
     auto output = torch::empty({input.size(0), weight.size(1), input.size(2), input.size(3)}, input.options());
     const int64_t total = output.numel();
     const int threads = 256;
     const int blocks = static_cast<int>((total + threads - 1) / threads);
-    cudaStream_t stream = at::cuda::getDefaultCUDAStream();
+    cudaStream_t stream = at::cuda::getCurrentCUDAStream(input.get_device()).stream();
     complex_mul_kernel<<<blocks, threads, 0, stream>>>(
         reinterpret_cast<const float*>(input.data_ptr<c10::complex<float>>()),
         reinterpret_cast<const float*>(weight.data_ptr<c10::complex<float>>()),
@@ -65,4 +66,3 @@ torch::Tensor complex_mul_forward(torch::Tensor input, torch::Tensor weight) {
     TORCH_CHECK(cudaGetLastError() == cudaSuccess, "complex_mul_kernel launch failed");
     return output;
 }
-

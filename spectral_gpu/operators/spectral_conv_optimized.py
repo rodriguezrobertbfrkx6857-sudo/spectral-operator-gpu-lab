@@ -11,6 +11,19 @@ from .complex_multiply import complex_multiply_optimized
 from .spectral_conv_reference import SpectralConv2dReference, _validate_input
 
 
+def backend_name(x: torch.Tensor) -> str:
+    if not x.is_cuda:
+        return "torch_improved_cpu"
+    if os.environ.get("SPECTRAL_GPU_DISABLE_EXTENSION") == "1":
+        return "torch_improved_cuda"
+    extension = load_extension()
+    if extension is None:
+        return "torch_reference_cuda"
+    if os.environ.get("SPECTRAL_GPU_ENABLE_FUSED") == "1" and x.dtype == torch.float32:
+        return "fused_frequency_cuda"
+    return "custom_complex_cuda"
+
+
 class SpectralConv2dOptimized(SpectralConv2dReference):
     """Drop-in layer that swaps the channel contraction for the optional CUDA kernel."""
 
@@ -21,7 +34,11 @@ class SpectralConv2dOptimized(SpectralConv2dReference):
         fused = os.environ.get("SPECTRAL_GPU_ENABLE_FUSED") == "1"
         if extension is not None and fused and x.dtype == torch.float32:
             output_ft = extension.frequency_mul_forward(
-                x_ft.contiguous(), self.weight_positive.contiguous(), self.modes1, self.modes2
+                x_ft.contiguous(),
+                self.weight_positive.contiguous(),
+                self.weight_negative.contiguous(),
+                self.modes1,
+                self.modes2,
             )
             return torch.fft.irfft2(output_ft, s=x.shape[-2:], norm="ortho")
         output_ft = torch.zeros(
@@ -36,4 +53,3 @@ class SpectralConv2dOptimized(SpectralConv2dReference):
             negative, self.weight_negative
         )
         return torch.fft.irfft2(output_ft, s=x.shape[-2:], norm="ortho")
-

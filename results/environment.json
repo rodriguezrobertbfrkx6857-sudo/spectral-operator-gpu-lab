@@ -1,39 +1,55 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
+  "captured_by": "scripts/detect_environment.py",
   "operating_system": {
     "system": "Windows",
     "release": "11",
     "version": "10.0.26200",
-    "machine": "AMD64"
+    "machine": "AMD64",
+    "processor": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel"
   },
-  "python": {
-    "version": "3.13.11",
-    "executable_role": "interpreter running this script"
+  "cpu": {
+    "name": "Intel64 Family 6 Model 170 Stepping 4, GenuineIntel",
+    "logical_processors": 22
   },
-  "torch": {
-    "installed": true,
-    "version": "2.9.1+cpu",
-    "cuda_available": false,
-    "compiled_cuda": null,
-    "device_count": 0,
-    "devices": []
-  },
+  "ram_bytes": 33945935872,
+  "display_adapters": [
+    {
+      "name": "Intel(R) Arc(TM) Graphics",
+      "adapter_ram_bytes": 2147479552,
+      "driver_version": "32.0.101.5768"
+    }
+  ],
   "nvidia": {
     "available": false,
-    "devices": []
+    "executable": false,
+    "devices": [],
+    "reason": "nvidia-smi was not found"
   },
-  "cuda_toolkit": {
-    "nvcc_found": false,
-    "nvcc_version": null
+  "cuda_workflow_available": false,
+  "toolchain": {
+    "nvcc": null,
+    "cmake": null,
+    "cxx": "g++.EXE (Rev8, Built by MSYS2 project) 15.2.0",
+    "python": "3.13.11",
+    "pip": "pip 25.3 from <python-env>\\Lib\\site-packages\\pip (python 3.13)",
+    "git": "git version 2.51.1.windows.1",
+    "github_cli": "gh version 2.96.0 (2026-07-02)",
+    "nsight_compute": null,
+    "nsight_systems": null
   },
-  "compiler": {
-    "cl": false,
-    "gxx": true,
-    "gcc": true
+  "github_cli_authenticated": true,
+  "python_packages": {
+    "torch": {
+      "installed": true,
+      "version": "2.9.1+cpu",
+      "cuda_available": false,
+      "compiled_cuda": null,
+      "device_count": 0,
+      "devices": [],
+      "capabilities": []
+    },
+    "numpy": "2.1.3"
   },
-  "hardware_mode": "cpu_only",
-  "nsight": {
-    "ncu": false,
-    "nsys": false
-  }
+  "hardware_mode": "cpu_only"
 }

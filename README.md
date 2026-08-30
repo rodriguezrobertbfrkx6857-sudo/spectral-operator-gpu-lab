@@ -20,21 +20,22 @@ Use an environment with PyTorch, NumPy, and pytest:
 
 ```powershell
 python -m pytest
+python scripts/run_cuda_tests.py
 python scripts/run_benchmarks.py --quick
 python scripts/generate_report.py
 ```
 
-The default test matrix covers batch sizes 1 and 4, channels 16 and 32, spatial sizes through 256×256, and modes 8, 16, and 32. The benchmark runner uses CUDA Events with warm-up and repeated measurements on CUDA, and `perf_counter_ns` with adaptive counts on CPU.
+The default test matrix covers batch sizes 1 and 4, channels 16 and 32, spatial sizes through 256×256, and modes 8, 16, and 32. `python scripts/run_cuda_tests.py --require-cuda` is the strict gate for a CUDA host: it fails when no CUDA device or no CUDA-marked test is available. The benchmark runner uses CUDA Events with warm-up and repeated measurements on CUDA, and `perf_counter_ns` with adaptive counts on CPU.
 
 ## CUDA extension
 
-The extension is lazy-loaded only when `torch.cuda.is_available()` and `CUDA_HOME` are both present. It can be disabled with `SPECTRAL_GPU_DISABLE_EXTENSION=1`. The default optimized layer uses the custom complex contraction when it loads successfully; the fused frequency path requires `SPECTRAL_GPU_ENABLE_FUSED=1`.
+The extension is lazy-loaded only when `torch.cuda.is_available()` and `CUDA_HOME` are both present. It can be disabled with `SPECTRAL_GPU_DISABLE_EXTENSION=1`. The default optimized layer uses the custom complex contraction when it loads successfully; the fused frequency path requires `SPECTRAL_GPU_ENABLE_FUSED=1` and passes distinct positive/negative frequency weights. Set `SPECTRAL_GPU_REQUIRE_EXTENSION=1` during validation to turn an extension build failure into a visible test/benchmark failure. `SPECTRAL_GPU_USE_FAST_MATH=1` is an explicit, separately measurable option; correctness validation defaults to regular FP32 math.
 
-The source is [spectral_gpu/cuda/complex_mul_kernel.cu](spectral_gpu/cuda/complex_mul_kernel.cu), with bindings in [spectral_gpu/cuda/bindings.cpp](spectral_gpu/cuda/bindings.cpp). No API key or external service is required.
+The source is [spectral_gpu/cuda/complex_mul_kernel.cu](spectral_gpu/cuda/complex_mul_kernel.cu), with bindings in [spectral_gpu/cuda/bindings.cpp](spectral_gpu/cuda/bindings.cpp). `spectral_gpu.cuda.extension_status()` exposes availability, compilation, backend, build error, and source version. No API key or external service is required.
 
 ## Results
 
-The generated result is [results/results.md](results/results.md), with machine-readable data in [results/operator_results.json](results/operator_results.json). Each record includes the exact shape, modes, median/mean/min/std timing, speedup, and maximum error against the reference. The report distinguishes `cpu` from `cuda`.
+The generated result is [results/results.md](results/results.md), with machine-readable data in [results/operator_results.json](results/operator_results.json). Each record includes the exact shape, modes, median/mean/min/std timing, warm-up/iteration counts, actual backend, status, speedup when a custom CUDA comparison is valid, and maximum/mean error against the reference. The report distinguishes `cpu` from `cuda` and lists the fused CUDA path as skipped on CPU-only hosts.
 
 ## Documentation
 
@@ -52,4 +53,3 @@ python scripts/generate_report.py
 ```
 
 All model weights and synthetic fields use explicit seeds. GPU benchmarks must be reproduced on CUDA-capable hardware. The current checkout reports `NOT BENCHMARKED ON CURRENT HARDWARE` for CUDA because that hardware was not present.
-
