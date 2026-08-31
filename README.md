@@ -4,6 +4,10 @@
 
 当前提交使用 `torch 2.9.1+cpu`，运行在没有 NVIDIA 驱动和 CUDA Toolkit 的本机。报告中的时间是真实 CPU fallback 测量，不能被解释为 CUDA 结果；CUDA 路径保留在仓库中，需在 CUDA 机器上重新构建和测量。
 
+[![CI](https://github.com/rodriguezrobertbfrkx6857-sudo/spectral-operator-gpu-lab/actions/workflows/ci.yml/badge.svg)](https://github.com/rodriguezrobertbfrkx6857-sudo/spectral-operator-gpu-lab/actions/workflows/ci.yml)
+
+> 评委速览：这是作品集的科学算子旗舰项目，围绕 FNO 频域收缩比较 reference、PyTorch 优化路径、自定义 `complex64` CUDA 扩展和可选融合 kernel。报告严格区分 CPU fallback 与 CUDA 实测，不从 CPU 时间推断 GPU 加速。
+
 ## 实验内容
 
 - V0 参考：`torch.fft.rfft2` → 低频选择 → 复数 `einsum` → `torch.fft.irfft2`。
