@@ -1,22 +1,20 @@
-# spectral-operator-gpu-lab
+# Spectral Operator GPU Lab：频谱算子与 FNO 优化实验
 
-GPU optimization experiments for spectral operators and Fourier Neural Operators with custom CUDA kernels.
+一套面向频谱算子和 Fourier Neural Operator（FNO）的 GPU 优化实验。项目把 `SpectralConv2d` 中最昂贵的频域收缩拆出来，对比 PyTorch 参考路径、整理后的 PyTorch 路径、可选的自定义 CUDA 扩展和可选融合内核，并用确定性的合成光滑场支撑可复现验证。
 
-This project isolates the expensive frequency-domain contraction in a small `SpectralConv2d` and compares a PyTorch reference, a cleaned-up PyTorch path, and an optional PyTorch CUDA extension. It also includes a Mini-FNO inference path and deterministic synthetic smooth fields. FFT transforms remain delegated to `torch.fft`; the custom code focuses on complex multiplication and frequency selection.
+当前提交使用 `torch 2.9.1+cpu`，运行在没有 NVIDIA 驱动和 CUDA Toolkit 的本机。报告中的时间是真实 CPU fallback 测量，不能被解释为 CUDA 结果；CUDA 路径保留在仓库中，需在 CUDA 机器上重新构建和测量。
 
-The current checked-in run uses `torch 2.9.1+cpu` on a host with no NVIDIA driver or CUDA Toolkit. Its timings are real CPU fallback measurements only. CUDA results are never inferred from them.
+## 实验内容
 
-## Project overview
+- V0 参考：`torch.fft.rfft2` → 低频选择 → 复数 `einsum` → `torch.fft.irfft2`。
+- V1 PyTorch 优化：显式连续切片和受控输出分配。
+- V2 自定义 CUDA 扩展：针对真实四维算子布局的 `complex64` 通道收缩。
+- V3 可选融合内核：在一个 CUDA kernel 中完成频率选择和复数乘法。
+- Mini-FNO：升维、两个频谱块和投影层，输入为确定性的合成光滑场。
 
-- V0 reference: `torch.fft.rfft2` → low-frequency selection → complex `einsum` → `torch.fft.irfft2`.
-- V1 improved PyTorch path: explicit contiguous slices and controlled output allocation.
-- V2 custom CUDA extension: complex64 channel contraction for the actual rank-4 operator layout.
-- V3 opt-in fused kernel: frequency selection plus complex multiplication in one CUDA kernel.
-- Mini-FNO: lift, two spectral blocks, and projection over synthetic smooth fields.
+## 快速开始
 
-## Quick start
-
-Use an environment with PyTorch, NumPy, and pytest:
+准备 PyTorch、NumPy 和 pytest 环境后：
 
 ```powershell
 python -m pytest
@@ -25,26 +23,24 @@ python scripts/run_benchmarks.py --quick
 python scripts/generate_report.py
 ```
 
-The default test matrix covers batch sizes 1 and 4, channels 16 and 32, spatial sizes through 256×256, and modes 8, 16, and 32. `python scripts/run_cuda_tests.py --require-cuda` is the strict gate for a CUDA host: it fails when no CUDA device or no CUDA-marked test is available. The benchmark runner uses CUDA Events with warm-up and repeated measurements on CUDA, and `perf_counter_ns` with adaptive counts on CPU.
+默认测试覆盖 batch 1/4、通道 16/32、最大 `256×256` 的空间尺寸以及 modes 8/16/32。`python scripts/run_cuda_tests.py --require-cuda` 是严格 CUDA 门禁：没有 CUDA 设备或 CUDA 标记测试时直接失败。CUDA 计时使用 CUDA Events，CPU 计时使用 `perf_counter_ns` 和自适应次数。
 
-## CUDA extension
+## CUDA 扩展
 
-The extension is lazy-loaded only when `torch.cuda.is_available()` and `CUDA_HOME` are both present. It can be disabled with `SPECTRAL_GPU_DISABLE_EXTENSION=1`. The default optimized layer uses the custom complex contraction when it loads successfully; the fused frequency path requires `SPECTRAL_GPU_ENABLE_FUSED=1` and passes distinct positive/negative frequency weights. Set `SPECTRAL_GPU_REQUIRE_EXTENSION=1` during validation to turn an extension build failure into a visible test/benchmark failure. `SPECTRAL_GPU_USE_FAST_MATH=1` is an explicit, separately measurable option; correctness validation defaults to regular FP32 math.
+只有在 `torch.cuda.is_available()` 和 `CUDA_HOME` 同时存在时才会延迟加载扩展。可设置 `SPECTRAL_GPU_DISABLE_EXTENSION=1` 禁用；`SPECTRAL_GPU_ENABLE_FUSED=1` 启用融合频率路径；`SPECTRAL_GPU_REQUIRE_EXTENSION=1` 会把扩展构建失败转为显式测试/基准失败。`SPECTRAL_GPU_USE_FAST_MATH=1` 是可单独测量的选项，正确性验证默认使用常规 FP32 数学。
 
-The source is [spectral_gpu/cuda/complex_mul_kernel.cu](spectral_gpu/cuda/complex_mul_kernel.cu), with bindings in [spectral_gpu/cuda/bindings.cpp](spectral_gpu/cuda/bindings.cpp). `spectral_gpu.cuda.extension_status()` exposes availability, compilation, backend, build error, and source version. No API key or external service is required.
+核心源码位于 [`spectral_gpu/cuda/complex_mul_kernel.cu`](spectral_gpu/cuda/complex_mul_kernel.cu)，绑定位于 [`spectral_gpu/cuda/bindings.cpp`](spectral_gpu/cuda/bindings.cpp)。`spectral_gpu.cuda.extension_status()` 会公开扩展是否可用、是否编译、后端、构建错误和源码版本；项目不需要 API key 或外部服务。
 
-## Results
+## 结果与文档
 
-The generated result is [results/results.md](results/results.md), with machine-readable data in [results/operator_results.json](results/operator_results.json). Each record includes the exact shape, modes, median/mean/min/std timing, warm-up/iteration counts, actual backend, status, speedup when a custom CUDA comparison is valid, and maximum/mean error against the reference. The report distinguishes `cpu` from `cuda` and lists the fused CUDA path as skipped on CPU-only hosts.
+生成报告见 [`results/results.md`](results/results.md)，机器可读数据见 [`results/operator_results.json`](results/operator_results.json)。每条记录包含实际 shape、modes、中位/平均/最小/标准差、预热次数、迭代次数、真实后端、状态、有效加速比以及相对参考的最大/平均误差。报告明确区分 `cpu` 和 `cuda`，CPU-only 主机上的融合 CUDA 路径会被标记为跳过。
 
-## Documentation
+- [`docs/spectral_conv.md`](docs/spectral_conv.md)：算子数据流和频率布局。
+- [`docs/optimization_notes.md`](docs/optimization_notes.md)：优化边界和融合策略。
+- [`docs/limitations.md`](docs/limitations.md)：支持的数据类型、布局和诚实边界。
+- [`profiling/README.md`](profiling/README.md)：Nsight 分析流程。
 
-- [docs/spectral_conv.md](docs/spectral_conv.md): operator data flow and frequency layout.
-- [docs/optimization_notes.md](docs/optimization_notes.md): optimization boundary and fusion policy.
-- [docs/limitations.md](docs/limitations.md): supported dtype/layout and honest scope.
-- [profiling/README.md](profiling/README.md): external Nsight workflow.
-
-## Reproducibility
+复现实验：
 
 ```powershell
 python scripts/detect_environment.py --output-dir results
@@ -52,4 +48,4 @@ python scripts/run_benchmarks.py --quick
 python scripts/generate_report.py
 ```
 
-All model weights and synthetic fields use explicit seeds. GPU benchmarks must be reproduced on CUDA-capable hardware. The current checkout reports `NOT BENCHMARKED ON CURRENT HARDWARE` for CUDA because that hardware was not present.
+所有模型权重和合成场使用显式随机种子。当前 checkout 对 CUDA 报告 `NOT BENCHMARKED ON CURRENT HARDWARE`，并不从 CPU 时间推断 GPU 加速。
